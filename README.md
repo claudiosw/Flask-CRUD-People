@@ -28,3 +28,13 @@ venv\Scripts\activate
 ```
 pip install -r requirements.txt
 ```
+
+### Create the database and the database structure:
+```
+python
+>>> from src.models.config import *
+>>> from src.models.entities import *
+>>> db_conn = DBConnectionHandler()
+>>> engine = db_conn.get_engine()
+>>> Base.metadata.create_all(engine)
+```
