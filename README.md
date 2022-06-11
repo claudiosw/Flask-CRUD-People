@@ -27,6 +27,7 @@ venv\Scripts\activate
 ### Install the required Python packages:
 ```
 pip install -r requirements.txt
+pre-commit install
 ```
 
 ### Create the database and the database structure:
