@@ -1,1 +1,1 @@
-from persons_tuple import PersonsTuple
+from .persons_tuple import PersonsTuple

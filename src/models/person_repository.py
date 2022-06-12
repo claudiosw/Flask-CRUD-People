@@ -5,11 +5,10 @@ from .config import DBConnectionHandler
 from .tuples import PersonsTuple
 
 
-class BookRepository:
-    """ Class to manage Book Repository """
+class PersonRepository:
+    """ Class to manage Person Repository """
 
-    @classmethod
-    def insert_person(cls, name: str, age: int, neighbourhood: str, profession: str) -> PersonsTuple:
+    def insert_person(self, name: str, age: int, neighbourhood: str, profession: str) -> PersonsTuple:
         """insert data in person entity
         :param  - name: person's name
                 - age: person's age
@@ -39,8 +38,7 @@ class BookRepository:
 
         return None
 
-    @classmethod
-    def select_person(cls, name: str = None) -> List[PersonsTuple]:
+    def select_person(self, name: str = None) -> List[PersonsTuple]:
         """
         Select data in person entity by name
         :param - name: person's name
