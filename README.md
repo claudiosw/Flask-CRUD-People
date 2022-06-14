@@ -39,3 +39,17 @@ python
 >>> engine = db_conn.get_engine()
 >>> Base.metadata.create_all(engine)
 ```
+
+### Run Flask:
+```
+set FLASK_APP=run
+python -m flask run
+```
+
+### Create person
+Do a POST to the url http://127.0.0.1:5000/person
+
+With this data in the body (you can change the values):
+```
+{"name": "Claudio", "neighbourhood": "Jd Planalto", "age": 43, "profession": "Developer"}
+```

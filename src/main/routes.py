@@ -1,6 +1,6 @@
 
-from src.main.adapter.request_adapter import request_adapter
-from src.main.composer.person_composer import person_composer
+from .adapter.request_adapter import request_adapter
+from .composer.person_composer import person_composer
 from flask import Blueprint, request, jsonify
 person_routes_bp = Blueprint("api_routes", __name__)
 

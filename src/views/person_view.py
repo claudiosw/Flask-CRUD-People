@@ -12,9 +12,9 @@ class PersonView(ViewInterface):
     def handle(self, http_request: Type[HttpRequest]) -> Type[HttpResponse]:
         try:
             body = http_request.body
-            elements = body["numbers"]
+            # elements = body["numbers"]
 
-            response = self.__controller.run(elements)
+            response = self.__controller.run(body)
 
             return HttpResponse(status_code=200, body={"response": response})
         except Exception as exception:

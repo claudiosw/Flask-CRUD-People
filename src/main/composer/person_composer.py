@@ -1,8 +1,10 @@
 from src.views.person_view import PersonView
 from src.controllers.registry_person_controller import RegistryPersonController
+from src.models.person_repository import PersonRepository
 
 
 def person_composer():
-    person_controller = RegistryPersonController()
+    person_repository = PersonRepository()
+    person_controller = RegistryPersonController(person_repository)
     person_view = PersonView(person_controller)
     return person_view
