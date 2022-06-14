@@ -18,7 +18,7 @@ def test_register():
         "profession": faker.job()
     }
 
-    response = register_person.registry(
+    response = register_person.run(
         attributes
     )
 
@@ -41,7 +41,7 @@ def test_register_fail():
         "age": faker.name()
     }
 
-    response = register_person.registry(
+    response = register_person.run(
         attributes
     )
 
@@ -52,4 +52,3 @@ def test_register_fail():
 
     # Testing outputs
     assert response["success"] is False
-    # assert response["person_registry"] is None

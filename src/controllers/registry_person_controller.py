@@ -1,15 +1,16 @@
 from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
+from .interface.person_interface import PersonInterface
 
 
-class RegistryPersonController:
+class RegistryPersonController(PersonInterface):
     """ Class to define personcase: Register Person """
 
     def __init__(self, person_repository: Type[PersonRepository]):
         self.person_repository = person_repository
 
-    def registry(self, person_informations: Dict) -> Dict[bool, PersonsTuple]:
+    def run(self, person_informations: Dict) -> Dict[bool, PersonsTuple]:
         """Register person
         :param  - person_informations: person informations
         :return - Dictionary with informations of the process
