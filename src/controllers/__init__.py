@@ -1,1 +1,0 @@
-from .registry_person_controller import RegistryPersonController

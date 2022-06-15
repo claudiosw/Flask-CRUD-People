@@ -38,7 +38,7 @@ class PersonRepository:
 
         return None
 
-    def select_person(self, name: str = None) -> List[PersonsTuple]:
+    def select_person(self, name: str) -> List[PersonsTuple]:
         """
         Select data in person entity by name
         :param - name: person's name
@@ -70,6 +70,46 @@ class PersonRepository:
             db_connection.session.rollback()
             raise
         finally:
+            db_connection.session.close()
+
+        return None
+
+    def update_person(self, name: str, age: int, neighbourhood: str, profession: str) -> List[PersonsTuple]:
+        """
+        Select data in person entity by name
+        :param - name: person's name
+        :return - List with Persons selected
+        """
+
+        try:
+
+            if name:
+
+                with DBConnectionHandler() as db_connection:
+                    person = (
+                        db_connection.session.query(PersonsModel)
+                        .filter_by(name=name)
+                        .one()
+                    )
+                    person.age = age
+                    person.neighbourhood = neighbourhood
+                    person.profession = profession
+
+                return PersonsTuple(
+                    id=person.id,
+                    name=person.name,
+                    age=person.age,
+                    neighbourhood=person.neighbourhood,
+                    profession=person.profession
+                )
+
+        except NoResultFound:
+            return []
+        except:
+            db_connection.session.rollback()
+            raise
+        finally:
+            db_connection.session.commit()
             db_connection.session.close()
 
         return None
