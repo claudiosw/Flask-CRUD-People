@@ -53,3 +53,8 @@ With this data in the body (you can change the values):
 ```
 {"name": "Claudio", "neighbourhood": "Jd Planalto", "age": 43, "profession": "Developer"}
 ```
+
+### Retrieve person
+Do a GET to the url http://127.0.0.1:5000/person
+
+With parameter name=Claudio (you can change the values):

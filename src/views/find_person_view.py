@@ -5,14 +5,14 @@ from .interfaces.views_interface import ViewInterface
 from src.controllers.interface.person_interface import PersonInterface
 
 
-class PersonView(ViewInterface):
+class FindPersonView(ViewInterface):
     def __init__(self, controller: Type[PersonInterface]) -> None:
         self.__controller = controller
 
     def handle(self, http_request: Type[HttpRequest]) -> Type[HttpResponse]:
         try:
-            body = http_request.body
-            response = self.__controller.run(body)
+            query_params = http_request.query_params
+            response = self.__controller.run(query_params)
 
             return HttpResponse(status_code=200, body={"response": response})
         except Exception as exception:

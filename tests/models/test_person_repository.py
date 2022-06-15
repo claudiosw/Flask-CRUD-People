@@ -48,6 +48,6 @@ def test_select_person():
 
     query_person1 = person_repository.select_person(name=name)
 
-    assert data.name == query_person1[0].name
+    assert data.name == query_person1.name
 
     engine.execute(f"DELETE FROM persons WHERE id='{person_id}';")

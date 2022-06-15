@@ -46,7 +46,6 @@ class PersonRepository:
         """
 
         try:
-            query_data = None
 
             if name:
 
@@ -56,9 +55,14 @@ class PersonRepository:
                         .filter_by(name=name)
                         .one()
                     )
-                    query_data = [data]
 
-            return query_data
+                return PersonsTuple(
+                    id=data.id,
+                    name=data.name,
+                    age=data.age,
+                    neighbourhood=data.neighbourhood,
+                    profession=data.profession
+                )
 
         except NoResultFound:
             return []
