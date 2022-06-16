@@ -6,11 +6,15 @@ from src.views.interfaces.views_interface import ViewInterface
 
 
 def request_adapter(request: FlaskRequest, callback: Type[ViewInterface]) -> HttpResponse:
+    if request.method in ("POST", "PUT"):
+        request_json = request.json
+    else:
+        request_json = None
     http_request = HttpRequest(
         header=request.headers,
-        body=request.json,
+        body=request_json,
         query_params=request.args,
-        url=request.full_path,
+        url=request.full_path
     )
 
     http_response = callback.handle(http_request)

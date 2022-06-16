@@ -78,6 +78,9 @@ class PersonRepository:
         """
         Select data in person entity by name
         :param - name: person's name
+                - age: person's age
+                - neighbourhood: person's neighbourhood
+                - profession: person's profession
         :return - List with Persons selected
         """
 
@@ -87,21 +90,20 @@ class PersonRepository:
 
                 with DBConnectionHandler() as db_connection:
                     person = (
-                        db_connection.session.query(PersonsModel)
-                        .filter_by(name=name)
-                        .one()
+                        db_connection.session.query(PersonsModel).filter_by(name=name)
+                        .update({"age": age, "neighbourhood": neighbourhood, "profession": profession})
                     )
-                    person.age = age
-                    person.neighbourhood = neighbourhood
-                    person.profession = profession
-
-                return PersonsTuple(
-                    id=person.id,
-                    name=person.name,
-                    age=person.age,
-                    neighbourhood=person.neighbourhood,
-                    profession=person.profession
-                )
+                    db_connection.session.commit()
+                    person = (
+                        db_connection.session.query(PersonsModel).filter_by(name=name).first()
+                    )
+                    return PersonsTuple(
+                        id=person.id,
+                        name=person.name,
+                        age=person.age,
+                        neighbourhood=person.neighbourhood,
+                        profession=person.profession
+                    )
 
         except NoResultFound:
             return []
@@ -109,7 +111,52 @@ class PersonRepository:
             db_connection.session.rollback()
             raise
         finally:
-            db_connection.session.commit()
+            db_connection.session.close()
+
+        return None
+
+    def delete_person(self, name: str) -> List[PersonsTuple]:
+        """
+        Select data in person entity by name
+        :param - name: person's name
+        :return - List with Persons selected
+        """
+
+        try:
+
+            if name:
+
+                with DBConnectionHandler() as db_connection:
+
+                    person = (
+                        db_connection.session.query(PersonsModel)
+                        .filter_by(name=name)
+                        .first()
+                    )
+
+                    person_tuple = PersonsTuple(
+                        id=person.id,
+                        name=person.name,
+                        age=person.age,
+                        neighbourhood=person.neighbourhood,
+                        profession=person.profession
+                    )
+                    person = (
+                        db_connection.session.query(PersonsModel)
+                        .filter_by(name=name)
+                        .delete()
+                    )
+
+                    db_connection.session.commit()
+
+                    return person_tuple
+
+        except NoResultFound:
+            return []
+        except:
+            db_connection.session.rollback()
+            raise
+        finally:
             db_connection.session.close()
 
         return None
