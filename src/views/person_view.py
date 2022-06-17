@@ -3,6 +3,7 @@ from .http_types.http_request import HttpRequest
 from .http_types.http_response import HttpResponse
 from .interfaces.views_interface import ViewInterface
 from src.controllers.interface.person_interface import PersonInterface
+from src.validators.person_validator import person_validator
 
 
 class PersonView(ViewInterface):
@@ -12,7 +13,12 @@ class PersonView(ViewInterface):
     def handle(self, http_request: Type[HttpRequest]) -> Type[HttpResponse]:
         try:
             body = http_request.body
-            response = self.__controller.run(body)
+            person_validator
+            validation_result = person_validator.validate(body)
+            if validation_result:
+                response = self.__controller.run(body)
+            else:
+                return HttpResponse(status_code=400, body={"error": str(person_validator.errors)})
 
             return HttpResponse(status_code=200, body={"response": response})
         except Exception as exception:
