@@ -1,33 +1,33 @@
 from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
-from .interface.person_interface import PersonInterface
+from .interface.delete_person_interface import DeletePersonInterface
 
 
-class DeletePersonController(PersonInterface):
+class DeletePersonController(DeletePersonInterface):
     """ Class to define personcase: Register Person """
 
     def __init__(self, person_repository: Type[PersonRepository]):
         self.person_repository = person_repository
 
-    def run(self, person_informations: Dict) -> Dict[bool, PersonsTuple]:
+    def run(self, name: str) -> Dict[bool, PersonsTuple]:
         """Register person
-        :param  - person_informations: person informations
+        :param  - name: person name
         :return - Dictionary with informations of the process
         """
 
         try:
-            self.__convert_validate(person_informations)
+            self.__convert_validate(name)
             new_person = self.person_repository.delete_person(
-                person_informations["name"]
+                name
             )
             return {"success": True, "person_registry": new_person}
         except Exception as exception:
             return {"success": False, "error": str(exception)}
 
-    def __convert_validate(self, person_informations: Dict):
+    def __convert_validate(self, name: str):
         validate_entry = (
-            isinstance(person_informations['name'], str)
+            isinstance(name, str)
         )
         if not validate_entry:
             raise

@@ -1,10 +1,10 @@
 from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
-from .interface.person_interface import PersonInterface
+from .interface.registry_person_interface import RegistryPersonInterface
 
 
-class RegistryPersonController(PersonInterface):
+class RegistryPersonController(RegistryPersonInterface):
     """ Class to define personcase: Register Person """
 
     def __init__(self, person_repository: Type[PersonRepository]):

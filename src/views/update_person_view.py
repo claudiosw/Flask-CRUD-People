@@ -2,12 +2,12 @@ from typing import Type
 from .http_types.http_request import HttpRequest
 from .http_types.http_response import HttpResponse
 from .interfaces.views_interface import ViewInterface
-from src.controllers.interface.person_interface import PersonInterface
+from src.controllers.interface.update_person_interface import UpdatePersonInterface
 from src.validators.person_validator import person_validator
 
 
 class UpdatePersonView(ViewInterface):
-    def __init__(self, controller: Type[PersonInterface]) -> None:
+    def __init__(self, controller: Type[UpdatePersonInterface]) -> None:
         self.__controller = controller
 
     def handle(self, http_request: Type[HttpRequest]) -> Type[HttpResponse]:

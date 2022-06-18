@@ -1,34 +1,34 @@
 from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
-from .interface.person_interface import PersonInterface
+from .interface.find_person_interface import FindPersonInterface
 
 
-class FindPersonController(PersonInterface):
+class FindPersonController(FindPersonInterface):
     """ Class to define personcase: Find Person """
 
     def __init__(self, person_repository: Type[PersonRepository]):
         self.person_repository = person_repository
 
-    def run(self, person_informations: Dict) -> Dict[bool, PersonsTuple]:
+    def run(self, name: str) -> Dict[bool, PersonsTuple]:
         """Register person
-        :param  - person_informations: person informations
+        :param  - name: person name
         :return - Dictionary with informations of the process
         """
 
         try:
-            self.__convert_validate(person_informations)
+            self.__convert_validate(name)
             person = self.person_repository.select_person(
-                person_informations["name"]
+                name
             )
             return {"success": True, "person_registry": person}
         except Exception as exception:
             return {"success": False, "error": str(exception)}
 
-    def __convert_validate(self, person_informations: Dict):
+    def __convert_validate(self, name: str):
 
         validate_entry = (
-            isinstance(person_informations['name'], str)
+            isinstance(name, str)
         )
         if not validate_entry:
             raise

@@ -3,8 +3,8 @@ from typing import Dict
 from src.models.tuples import PersonsTuple
 
 
-class FindPersonInterface(ABC):
+class UpdatePersonInterface(ABC):
 
     @abstractmethod
-    def run(self, name: str) -> Dict[bool, PersonsTuple]:
+    def run(self, person_informations: Dict) -> Dict[bool, PersonsTuple]:
         pass
