@@ -13,7 +13,6 @@ class RegistryPersonView(ViewInterface):
     def handle(self, http_request: Type[HttpRequest]) -> Type[HttpResponse]:
         try:
             body = http_request.body
-            person_validator
             validation_result = person_validator.validate(body)
             if validation_result:
                 response = self.__controller.run(body)
