@@ -4,6 +4,8 @@ from .http_types.http_response import HttpResponse
 from .interfaces.views_interface import ViewInterface
 from src.controllers.interface.update_person_interface import UpdatePersonInterface
 from src.validators.person_validator import person_validator
+from src.errors.http_unprocessable_entity_error import HttpUnprocessableEntityError
+from src.errors.handle_errors import handle_errors
 
 
 class UpdatePersonView(ViewInterface):
@@ -17,8 +19,9 @@ class UpdatePersonView(ViewInterface):
             if validation_result:
                 response = self.__controller.run(body)
             else:
-                return HttpResponse(status_code=400, body={"error": str(person_validator.errors)})
+                raise HttpUnprocessableEntityError(person_validator.errors)
 
             return HttpResponse(status_code=200, body={"response": response})
         except Exception as exception:
-            return HttpResponse(status_code=500, body={"error": str(exception)})
+            error = handle_errors(exception)
+            return HttpResponse(status_code=error['status_code'], body={"response": error['data']})
