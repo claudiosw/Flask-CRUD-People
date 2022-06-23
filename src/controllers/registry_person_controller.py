@@ -16,17 +16,14 @@ class RegistryPersonController(RegistryPersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        try:
-            self.__convert_validate(person_informations)
-            new_person = self.person_repository.insert_person(
-                person_informations["name"],
-                person_informations["age_int"],
-                person_informations["neighbourhood"],
-                person_informations["profession"]
-            )
-            return {"success": True, "person_registry": new_person}
-        except Exception as exception:
-            return {"success": False, "error": str(exception)}
+        self.__convert_validate(person_informations)
+        new_person = self.person_repository.insert_person(
+            person_informations["name"],
+            person_informations["age_int"],
+            person_informations["neighbourhood"],
+            person_informations["profession"]
+        )
+        return {"success": True, "person_registry": new_person}
 
     def __convert_validate(self, person_informations: Dict):
         try:
