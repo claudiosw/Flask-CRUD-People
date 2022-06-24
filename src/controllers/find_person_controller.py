@@ -17,7 +17,6 @@ class FindPersonController(FindPersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        self.__convert_validate(name)
         person = self.person_repository.select_person(
             name
         )
@@ -25,11 +24,3 @@ class FindPersonController(FindPersonInterface):
             return {"success": True, "person_registry": person}
         else:
             raise HttpNotFound(f"{name} not found")
-
-    def __convert_validate(self, name: str):
-
-        validate_entry = (
-            isinstance(name, str)
-        )
-        if not validate_entry:
-            raise

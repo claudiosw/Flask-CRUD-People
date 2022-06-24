@@ -17,7 +17,6 @@ class DeletePersonController(DeletePersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        self.__convert_validate(name)
         person = self.person_repository.select_person(
             name
         )
@@ -28,10 +27,3 @@ class DeletePersonController(DeletePersonInterface):
             return {"success": True, "person_registry": deleted_person}
         else:
             raise HttpNotFound(f"{name} not found")
-
-    def __convert_validate(self, name: str):
-        validate_entry = (
-            isinstance(name, str)
-        )
-        if not validate_entry:
-            raise
