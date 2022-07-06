@@ -2,6 +2,7 @@ from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
 from .interface.find_person_interface import FindPersonInterface
+from src.errors.http_not_found import HttpNotFound
 
 
 class FindPersonController(FindPersonInterface):
@@ -16,19 +17,10 @@ class FindPersonController(FindPersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        try:
-            self.__convert_validate(name)
-            person = self.person_repository.select_person(
-                name
-            )
-            return {"success": True, "person_registry": person}
-        except Exception as exception:
-            return {"success": False, "error": str(exception)}
-
-    def __convert_validate(self, name: str):
-
-        validate_entry = (
-            isinstance(name, str)
+        person = self.person_repository.select_person(
+            name
         )
-        if not validate_entry:
-            raise
+        if person:
+            return {"success": True, "person_registry": person}
+        else:
+            raise HttpNotFound(f"{name} not found")

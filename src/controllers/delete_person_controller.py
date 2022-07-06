@@ -2,6 +2,7 @@ from typing import Type, Dict
 from src.models.person_repository import PersonRepository
 from src.models.tuples import PersonsTuple
 from .interface.delete_person_interface import DeletePersonInterface
+from src.errors.http_not_found import HttpNotFound
 
 
 class DeletePersonController(DeletePersonInterface):
@@ -16,18 +17,13 @@ class DeletePersonController(DeletePersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        try:
-            self.__convert_validate(name)
-            new_person = self.person_repository.delete_person(
+        person = self.person_repository.select_person(
+            name
+        )
+        if person:
+            deleted_person = self.person_repository.delete_person(
                 name
             )
-            return {"success": True, "person_registry": new_person}
-        except Exception as exception:
-            return {"success": False, "error": str(exception)}
-
-    def __convert_validate(self, name: str):
-        validate_entry = (
-            isinstance(name, str)
-        )
-        if not validate_entry:
-            raise
+            return {"success": True, "person_registry": deleted_person}
+        else:
+            raise HttpNotFound(f"{name} not found")

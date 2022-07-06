@@ -16,28 +16,10 @@ class RegistryPersonController(RegistryPersonInterface):
         :return - Dictionary with informations of the process
         """
 
-        try:
-            self.__convert_validate(person_informations)
-            new_person = self.person_repository.insert_person(
-                person_informations["name"],
-                person_informations["age_int"],
-                person_informations["neighbourhood"],
-                person_informations["profession"]
-            )
-            return {"success": True, "person_registry": new_person}
-        except Exception as exception:
-            return {"success": False, "error": str(exception)}
-
-    def __convert_validate(self, person_informations: Dict):
-        try:
-            person_informations['age_int'] = int(person_informations['age'])
-            validate_entry = (
-                isinstance(person_informations['name'], str)
-                and isinstance(person_informations['neighbourhood'], str)
-                and isinstance(person_informations['age_int'], int)
-                and isinstance(person_informations['profession'], str)
-            )
-            if not validate_entry:
-                raise
-        except ValueError:
-            raise ValueError("Age is not an integer")
+        new_person = self.person_repository.insert_person(
+            person_informations["name"],
+            person_informations["age"],
+            person_informations["neighbourhood"],
+            person_informations["profession"]
+        )
+        return {"success": True, "person_registry": new_person}
